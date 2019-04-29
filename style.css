@@ -1,0 +1,58 @@
+html, body {
+    height: 100%;
+    background: url(images/background.jpg) no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+header {
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    font-size: 20px;
+    padding-top: 30px;
+}
+
+
+main {
+    height: 80%;
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+button {
+    margin-top: 40px;
+    width: 50%;
+    height: 50px;
+    border-radius: 3px;
+    font-size: 20px;
+    background: none;
+    color: white;
+}
+button:hover {
+    background: white;
+    transition: background-color 1s linear, color .6s ease;
+    color: black;
+}
+button:focus {
+    outline: 0;
+}
+
+h1 {
+    position: relative;
+    bottom: 50px;
+}
+
+h2 {
+    font-size: 1.5rem;
+    width: 100%;
+    text-align: center;
+}
+
+  

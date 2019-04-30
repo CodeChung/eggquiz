@@ -23,9 +23,9 @@ function displayScore() {
 
 function generateQuizChoices(answers) {
     //creates quiz labels and inputs
-    let answerHTML = answers.map(answer => 
-        `<label class="choiceOption">
-            <input type="radio" value="${answer}" name="choice" required>
+    let answerHTML = answers.map((answer, index) => 
+        `<label class="choiceOption choice-${index}">
+            <input type="radio" value="${answer}" name="answer" required>
             <span>${answer}</span>
         </label>
         `);
@@ -38,6 +38,24 @@ function updateQuestionSet() {
     }
 }
 
+function randomRange(start, end) {
+    //get a random number in between these two numbers inclusive
+    return Math.floor(Math.random() * (end + 1 - start) + start);
+}
+
+function typeWriter(text, i=0, emoji="&#x1f95a;") {
+    //does a cool typewriter animation for legend
+    if (i < (text.length)) {
+        $('legend').html(text.substring(0, i+1) + '<span class="typewrite" aria-hidden="true"></span>');
+        //call typeWriter function again with timeout till we finish string
+        setTimeout(function() {
+            typeWriter(text, i + 1)
+        }, randomRange(10,40));
+    } else {
+        $('legend').html(text.substring(0, i+1) + ` ${emoji} <span class="typewrite" aria-hidden="true"></span>`)
+    }
+}
+
 function generateQuizForm() {
     //creates the quiz form html
     updateQuestionSet();
@@ -45,13 +63,14 @@ function generateQuizForm() {
     $('main').append(
         `<form class="unanswered">
             <fieldset>
-                <legend>${questionSet.question}</legend>
+                <legend></legend>        
                 ${choices}
             </fieldset>
             <button class="submitButton" type="submit">Submit</button>
         </form>
         `
         );
+    typeWriter(questionSet.question, 0);
 }
 
 function showQuizElement() {
@@ -84,12 +103,12 @@ function updateScore() {
 function displayNiceMessage() {
     //displays this message if user gets the correct answer
     const messages = ["Eggcellent answer", "That's eggsactly right", "Eggs-eptional! Keep it up."]
-    $('legend').html(`${messages[Math.floor(Math.random()*messages.length)]}`);
+    typeWriter(messages[Math.floor(Math.random()*messages.length)])
 }
 
 function displayRightAnswer() {
     //displays the correct answer if user chooses the incorrect answer
-    $('legend').html(`Sorry, the answer is: ${questionSet.answer}`)
+    typeWriter(`Sorry, the answer is: ${questionSet.answer}`)
 }
 
 function changeSubmitButton() {
@@ -97,21 +116,27 @@ function changeSubmitButton() {
     $('button.submitButton').html('Continue').addClass('.next-page').removeClass('submitButton');
 }
 
+function checkAnswer() {
+    let answer = $('form input:checked').val();
+    if (answer == questionSet.answer) {
+        updateScore();
+        displayNiceMessage();
+    } else {
+        displayRightAnswer();
+    }
+}
+
+function submitAnswerHandler(event) {
+    event.preventDefault();  
+    $(this).toggleClass("unanswered");
+    $(this).toggleClass("next-page");
+    checkAnswer();
+    changeSubmitButton();
+}
+
 function submitAnswer() {
     //updates DOM after submitting answer
-    $('main').on('submit','form.unanswered', function(event) {
-        event.preventDefault();  
-        $(this).toggleClass("unanswered");
-        $(this).toggleClass("next-page");
-        let answer = $('form input:checked').val();
-        if (answer == questionSet.answer) {
-            updateScore();
-            displayNiceMessage();
-        } else {
-            displayRightAnswer();
-        }
-        changeSubmitButton();
-    });
+    $('main').on('submit','form.unanswered', submitAnswerHandler);
 }
 
 function updateQuestionNumber() {
@@ -140,7 +165,6 @@ function clickAnswer() {
     //got rid of ugly radio buttons and decided to use entire label as button
     //highlights answer when input is clicked
     $('main').on('click', '.choiceOption', function(event) {
-        console.log('clicked');
         $(this).addClass('clicked');
         $(this).siblings().removeClass('clicked');
     })

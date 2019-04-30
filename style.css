@@ -76,6 +76,7 @@ form legend {
     border-radius: 3px;
     padding: 15px;
     width: 100%;
+    color: black;
 }
 
 form .choiceOption {
@@ -87,14 +88,14 @@ form .choiceOption {
     color: white;
 
 }
-
+/* 
 form input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-}
+} */
 
 .clicked, form .choiceOption:hover {
     color: black !important;
@@ -106,4 +107,19 @@ form input {
 .choiceOption {
     display: block;
     text-align: left;
+}
+
+button a {
+    text-decoration: none;
+}
+
+.typewrite {
+    border-right: .05em solid;
+    animation: type 1s steps(1) infinite;
+}
+
+@keyframes type {
+    50% {
+        border-color: transparent;
+    }
 }

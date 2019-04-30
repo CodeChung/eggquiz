@@ -1,6 +1,9 @@
 html, body {
     height: 100%;
-    background: url(images/background.jpg) no-repeat center center fixed;
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.3),
+        rgba(0, 0, 0, 0.3)
+      ), url(images/background.jpg) no-repeat center center fixed;
     background-size: cover;
     color: white;
     font-family: 'Noto Sans', sans-serif;
@@ -62,12 +65,43 @@ form fieldset {
 
 form {
     text-align: center;
+    width: 80%;
+    color: black;
 }
 
 form legend {
-    width: 100%;
     text-align: left;
+    font-size: 1.5em;
+    background-color: white;
+    border-radius: 3px;
+    padding: 15px;
+    width: 100%;
 }
+
+form .choiceOption {
+    font-size: 1.5em;
+    border-radius: 3px;
+    border: 1px white solid;
+    padding: 10px;
+    margin: 10px 0;
+    color: white;
+
+}
+
+form input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.clicked, form .choiceOption:hover {
+    color: black !important;
+    transition: background-color 1s linear, color .6s ease;
+    background: white;
+}
+
 
 .choiceOption {
     display: block;

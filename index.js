@@ -97,7 +97,7 @@ function changeSubmitButton() {
     $('button.submitButton').html('Continue').addClass('.next-page').removeClass('submitButton');
 }
 
-function chooseAnswer() {
+function submitAnswer() {
     //updates DOM after submitting answer
     $('main').on('submit','form.unanswered', function(event) {
         event.preventDefault();  
@@ -135,11 +135,22 @@ function endQuiz() {
         );
     }
 }
+
+function clickAnswer() {
+    //got rid of ugly radio buttons and decided to use entire label as button
+    //highlights answer when input is clicked
+    $('main').on('click', '.choiceOption', function(event) {
+        console.log('clicked');
+        $(this).addClass('clicked');
+        $(this).siblings().removeClass('clicked');
+    })
+}
+
 function generateQuiz() {
     //run quiz functions
     beginQuiz();
-    chooseAnswer();
-    //add a next question function for when we press continue
+    clickAnswer();
+    submitAnswer();
 }
 
 $(generateQuiz)

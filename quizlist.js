@@ -27,7 +27,7 @@ const quizList = [
     {
         question: "How can you tell if an egg has gone bad?",
         choices: ["Bad eggs float in water", "Bad eggs turn blue in vinegar", "Bad eggs whisper bad things when you put then next to your ear", "Bad eggs smell like wine"],
-        answer: "5 minutes"
+        answer: "Bad eggs float in water"
     },
     {
         question: "What is the record for most omelets made in 30 minutes?",

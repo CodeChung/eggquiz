@@ -1,5 +1,5 @@
-let questionNumber = 1;
-let questionSet = quizList[questionNumber - 1];
+let questionNumber = 0;
+let questionSet = quizList[0];
 let score = 0;
 
 function clearMain(element) {
@@ -9,7 +9,11 @@ function clearMain(element) {
 
 function displayQuestion() {
     //writes question in banner
-    $('.question-number').html(`Question: ${questionNumber}/10`)
+    if (questionNumber <= 10) {
+        $('.question-number').html(`Question: ${questionNumber}/10`);
+    } else {
+        $('.question-number').html();
+    }
 }
 
 function displayScore() {
@@ -28,8 +32,15 @@ function generateQuizChoices(answers) {
     return answerHTML.join("");
 }
 
+function updateQuestionSet() {
+    if (questionNumber > 0) {
+        questionSet = quizList[questionNumber - 1];
+    }
+}
+
 function generateQuizForm() {
     //creates the quiz form html
+    updateQuestionSet();
     let choices = generateQuizChoices(questionSet.choices);
     $('main').append(
         `<form class="unanswered">
@@ -55,8 +66,9 @@ function showQuizElement() {
 
 function beginQuiz() {
     //begins quiz when get started button is pressed.
-    $('main').on('click', '.get-started', function(event) {
+    $('main').on('click', '.next-page', function(event) {
         clearMain(event.currentTarget);
+        updateQuestionNumber();
         displayQuestion();
         displayScore();
         showQuizElement();
@@ -82,7 +94,7 @@ function displayRightAnswer() {
 
 function changeSubmitButton() {
     //after submitting answer, switch submit button to continue button
-    $('button.submitButton').html('Continue').addClass('continueButton').removeClass('submitButton');
+    $('button.submitButton').html('Continue').addClass('.next-page').removeClass('submitButton');
 }
 
 function chooseAnswer() {
@@ -90,7 +102,7 @@ function chooseAnswer() {
     $('main').on('submit','form.unanswered', function(event) {
         event.preventDefault();  
         $(this).toggleClass("unanswered");
-        $(this).toggleClass("answered");
+        $(this).toggleClass("next-page");
         let answer = $('form input:checked').val();
         if (answer == questionSet.answer) {
             updateScore();
@@ -105,27 +117,28 @@ function chooseAnswer() {
 function updateQuestionNumber() {
     //updates question number
     questionNumber++;
-    displayQuestion();
-}
-
-function nextQuestion() {
-    //changes question when user clicks continue
-    $('main').on('submit', 'form.answered', function(event) {
-        event.preventDefault();
-        updateQuestionNumber();
-        $(this).toggleClass("answered");
-    })
 }
 
 function endQuiz() {
     //shows final score and option to restart
-    console.log('ended');
+    if (score > 6) {
+        $('main').append(
+            `<h2>Congratulations, You scored ${score} out of 10</h2>
+            <img src="images/eggs-transparent-sunny-side-up-4.png" alt="congratulatory sunny side up egg">
+            <button><a href="index.html">Retry?</a></button>`
+        );
+    } else {
+        $('main').append(
+            `<h2>Oops, You only scored ${score} out of 10</h2>
+            <img src="images/cracked.png" alt="sad cracked egg">
+            <button><a href="index.html">Retry?</a></button>`
+        );
+    }
 }
 function generateQuiz() {
     //run quiz functions
     beginQuiz();
     chooseAnswer();
-    nextQuestion();
     //add a next question function for when we press continue
 }
 

@@ -56,4 +56,20 @@ h2 {
     text-align: center;
 }
 
-  
+form fieldset {
+    border: none;
+}
+
+form {
+    text-align: center;
+}
+
+form legend {
+    width: 100%;
+    text-align: left;
+}
+
+.choiceOption {
+    display: block;
+    text-align: left;
+}

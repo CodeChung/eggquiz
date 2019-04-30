@@ -1,4 +1,5 @@
 let questionNumber = 1;
+let questionSet = quizList[questionNumber - 1];
 let score = 0;
 
 function clearMain(element) {
@@ -29,12 +30,11 @@ function generateQuizChoices(answers) {
 
 function generateQuizForm() {
     //creates the quiz form html
-    let question = quizList[questionNumber - 1];
-    let choices = generateQuizChoices(question.choices);
+    let choices = generateQuizChoices(questionSet.choices);
     $('main').append(
-        `<form>
+        `<form class="unanswered">
             <fieldset>
-                <legend>${question.question}</legend>
+                <legend>${questionSet.question}</legend>
                 ${choices}
             </fieldset>
             <button class="submitButton" type="submit">Submit</button>
@@ -63,10 +63,57 @@ function beginQuiz() {
     })
 }
 
+function updateScore() {
+    //increments and updates score
+    score++;
+    displayScore();
+}
+
+function displayNiceMessage() {
+    //displays this message if user gets the correct answer
+    const messages = ["Eggcellent answer", "That's eggsactly right", "Eggs-eptional! Keep it up."]
+    $('legend').html(`${messages[Math.floor(Math.random()*messages.length)]}`);
+}
+
+function displayRightAnswer() {
+    //displays the correct answer if user chooses the incorrect answer
+    $('legend').html(`Sorry, the answer is: ${questionSet.answer}`)
+}
+
+function changeSubmitButton() {
+    //after submitting answer, switch submit button to continue button
+    $('button.submitButton').html('Continue').addClass('continueButton').removeClass('submitButton');
+}
+
 function chooseAnswer() {
-    $('main').on('submit','form', function(event) {
+    //updates DOM after submitting answer
+    $('main').on('submit','form.unanswered', function(event) {
+        event.preventDefault();  
+        $(this).toggleClass("unanswered");
+        $(this).toggleClass("answered");
+        let answer = $('form input:checked').val();
+        if (answer == questionSet.answer) {
+            updateScore();
+            displayNiceMessage();
+        } else {
+            displayRightAnswer();
+        }
+        changeSubmitButton();
+    });
+}
+
+function updateQuestionNumber() {
+    //updates question number
+    questionNumber++;
+    displayQuestion();
+}
+
+function nextQuestion() {
+    //changes question when user clicks continue
+    $('main').on('submit', 'form.answered', function(event) {
         event.preventDefault();
-        console.log('answer chosen');
+        updateQuestionNumber();
+        $(this).toggleClass("answered");
     })
 }
 
@@ -78,6 +125,8 @@ function generateQuiz() {
     //run quiz functions
     beginQuiz();
     chooseAnswer();
+    nextQuestion();
+    //add a next question function for when we press continue
 }
 
 $(generateQuiz)

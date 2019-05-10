@@ -88,14 +88,14 @@ form .choiceOption {
     color: white;
 
 }
-/* 
+
 form input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-} */
+}
 
 .clicked, form .choiceOption:hover {
     color: black !important;
@@ -111,6 +111,11 @@ form input {
 
 button a {
     text-decoration: none;
+    color: white;
+}
+button a:hover {
+    text-decoration: none;
+    color: black;
 }
 
 .typewrite {

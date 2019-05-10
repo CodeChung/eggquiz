@@ -43,7 +43,7 @@ function randomRange(start, end) {
     return Math.floor(Math.random() * (end + 1 - start) + start);
 }
 
-function typeWriter(text, i=0, emoji="&#x1f95a;") {
+function typeWriter(text, i=0) {
     //does a cool typewriter animation for legend
     if (i < (text.length)) {
         $('legend').html(text.substring(0, i+1) + '<span class="typewrite" aria-hidden="true"></span>');
@@ -52,7 +52,7 @@ function typeWriter(text, i=0, emoji="&#x1f95a;") {
             typeWriter(text, i + 1)
         }, randomRange(10,40));
     } else {
-        $('legend').html(text.substring(0, i+1) + ` ${emoji} <span class="typewrite" aria-hidden="true"></span>`)
+        $('legend').html(text.substring(0, i+1) + ` &#x1f95a; <span class="typewrite" aria-hidden="true"></span>`)
     }
 }
 
@@ -70,7 +70,7 @@ function generateQuizForm() {
         </form>
         `
         );
-    typeWriter(questionSet.question, 0);
+    typeWriter(questionSet.question);
 }
 
 function showQuizElement() {

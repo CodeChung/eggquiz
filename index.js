@@ -162,7 +162,7 @@ function endQuiz() {
 }
 
 function clickAnswer() {
-    //got rid of ugly radio buttons and decided to use entire label as button
+    //got rid of radio buttons and decided to use entire label as button
     //highlights answer when input is clicked
     $('main').on('click', '.choiceOption', function(event) {
         $(this).addClass('clicked');
